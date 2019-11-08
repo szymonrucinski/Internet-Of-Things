@@ -31,58 +31,27 @@ void loop()
   turnSensorUpdate();
   int32_t angle = getAngle();
   Serial.println(angle);
+
+  //left +
+  //right -
   
-  if(angle<0)
+  if(angle>0)
   {
-          speed+=5;
-      motors.setRightSpeed(speed);
-      
+      motors.setLeftSpeed(80);
+      Serial.println("Right rotation");
+      delay(1);
   }
-//   motors.setLeftSpeed(100);
-//  motors.setRightSpeed(100);
 
-    if(angle>0)
-  {
+    if(angle<0)
+  {         
+          motors.setRightSpeed(80);  
+          Serial.println("Left rotation");
+           delay(1);
 
-                speed+=5;
-          motors.setLeftSpeed(speed);
-     
   }
-// motors.setLeftSpeed(100);
-//  motors.setRightSpeed(100);
-
-
+  
+    angle = getAngle();
+  Serial.println(angle);
 }
 
   
-  
-//  digitalWrite(LED_PIN, HIGH);
-//  int speed = 0;
-//  for ( speed=0 ;speed <= 100; speed++)
-//  {
-//    motors.setLeftSpeed(speed);
-//    motors.setRightSpeed(speed);
-//  
-//    turnSensorUpdate();
-//  int32_t angle = getAngle();
-//  Serial.println(angle);
-//  
-//  if(angle<0)
-//  {
-//    while(angle!=0)
-//    {
-//          speed+=2;
-//      motors.setLeftSpeed(speed);
-//      
-//   }
-//    
-//   
-//
-//    if(angle>0)
-//  {
-//   
-//                speed+=2;
-//          motors.setRightSpeed(speed);
-//     
-//   }
-//}
