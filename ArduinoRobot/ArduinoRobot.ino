@@ -1,42 +1,88 @@
-/*
- * This example uses the ZumoMotors library to drive each motor on the Zumo
- * forward, then backward. The yellow user LED is on when a motor should be
- * running forward and off when a motor should be running backward. If a
- * motor on your Zumo has been flipped, you can correct its direction by
- * uncommenting the call to flipLeftMotor() or flipRightMotor() in the setup()
- * function.
- */
-
-#include <Wire.h>
 #include <ZumoShield.h>
+#include <Wire.h>
+#include <L3G.h>
 
 #define LED_PIN 13
-
 ZumoMotors motors;
+#include "TurnSensor.h"
+L3G gyro;
 
-void setup()
+int32_t getAngle() 
+{
+  return (((int32_t)turnAngle >> 16) * 360) >> 16;
+}
+
+void setup() 
 {
   pinMode(LED_PIN, OUTPUT);
-
-  // uncomment one or both of the following lines if your motors' directions need to be flipped
-  //motors.flipLeftMotor(true);
-  //motors.flipRightMotor(true);
+  Serial.begin(9600);
+  Wire.begin();
+ turnSensorSetup();
+  delay(500);
+  turnSensorReset();
 }
 
-void loop()
+void loop() 
 {
-  // run left motor forward
 
-  digitalWrite(LED_PIN, HIGH);
-
-  for (int speed = 0; speed <= 400; speed++)
+  int speed = 40;
+  motors.setLeftSpeed(speed);
+  motors.setRightSpeed(speed);
+  turnSensorUpdate();
+  int32_t angle = getAngle();
+  Serial.println(angle);
+  
+  if(angle<0)
   {
-    motors.setLeftSpeed(speed);
-    motors.setRightSpeed(speed);
-    //delay(2);
+          speed+=5;
+      motors.setRightSpeed(speed);
+      
   }
+//   motors.setLeftSpeed(100);
+//  motors.setRightSpeed(100);
+
+    if(angle>0)
+  {
+
+                speed+=5;
+          motors.setLeftSpeed(speed);
+     
+  }
+// motors.setLeftSpeed(100);
+//  motors.setRightSpeed(100);
+
+
+}
 
   
-
-  delay(500);
-}
+  
+//  digitalWrite(LED_PIN, HIGH);
+//  int speed = 0;
+//  for ( speed=0 ;speed <= 100; speed++)
+//  {
+//    motors.setLeftSpeed(speed);
+//    motors.setRightSpeed(speed);
+//  
+//    turnSensorUpdate();
+//  int32_t angle = getAngle();
+//  Serial.println(angle);
+//  
+//  if(angle<0)
+//  {
+//    while(angle!=0)
+//    {
+//          speed+=2;
+//      motors.setLeftSpeed(speed);
+//      
+//   }
+//    
+//   
+//
+//    if(angle>0)
+//  {
+//   
+//                speed+=2;
+//          motors.setRightSpeed(speed);
+//     
+//   }
+//}
