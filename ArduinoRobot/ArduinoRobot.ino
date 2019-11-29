@@ -25,7 +25,7 @@ void setup()
 void loop() 
 {
 
-  int speed = 40;
+  int speed =100;
   motors.setLeftSpeed(speed);
   motors.setRightSpeed(speed);
   turnSensorUpdate();
@@ -37,16 +37,16 @@ void loop()
   
   if(angle>0)
   {
-      motors.setLeftSpeed(80);
+      motors.setLeftSpeed(180);
       Serial.println("Right rotation");
-      delay(1);
+      //delay(1);
   }
 
     if(angle<0)
   {         
-          motors.setRightSpeed(80);  
+          motors.setRightSpeed(180);  
           Serial.println("Left rotation");
-           delay(1);
+           //delay(1);
 
   }
   
